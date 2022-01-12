@@ -17,9 +17,7 @@ const io = new Server(server, {
 	},
 });
 
-if (process.env.NODE_ENV !== 'production') {
-	dotenv.config();
-}
+dotenv.config();
 
 // Connect to MongoDB
 mongoose
