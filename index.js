@@ -31,7 +31,7 @@ mongoose
 		}
 	)
 	.then(() => console.log('MongoDB connected successfully!'))
-	.catch((error) => console.log(error.message));
+	.catch((error) => console.log(error));
 
 app.use(express.json()); // used to parse JSON bodies
 app.use(express.urlencoded({ limit: '30mb', extended: true })); // parse URL-encoded bodies
