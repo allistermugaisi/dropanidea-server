@@ -30,20 +30,17 @@ export const signin = async (req, res) => {
 		const token = jwt.sign(
 			{
 				email: existingUser.email,
-
 				id: existingUser._id,
 			},
 			'encryptedJWTSecret',
 			{ expiresIn: '7 days' }
 		);
 
-		res
-			.status(200)
-			.json({
-				current_user: existingUser.name,
-				role: existingUser.role,
-				token,
-			});
+		res.status(200).json({
+			current_user: existingUser.name,
+			role: existingUser.role,
+			token,
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: 'Something went wrong.' });
@@ -55,6 +52,7 @@ export const signup = async (req, res) => {
 		email,
 		password,
 		password_confirmation,
+		company_name,
 		name,
 		username,
 		role,
@@ -75,6 +73,7 @@ export const signup = async (req, res) => {
 			!password_confirmation ||
 			!username ||
 			!role ||
+			!company_name ||
 			!name
 		)
 			return res.status(400).json({ message: 'Please enter all fields!' });
@@ -98,6 +97,7 @@ export const signup = async (req, res) => {
 		// Create user
 		await User.create({
 			name,
+			company_name,
 			username,
 			email,
 			role,
