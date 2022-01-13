@@ -28,12 +28,22 @@ export const signin = async (req, res) => {
 
 		// Authenticate user
 		const token = jwt.sign(
-			{ email: existingUser.email, id: existingUser._id },
+			{
+				email: existingUser.email,
+
+				id: existingUser._id,
+			},
 			'encryptedJWTSecret',
 			{ expiresIn: '7 days' }
 		);
 
-		res.status(200).json({ current_user: existingUser.name, token });
+		res
+			.status(200)
+			.json({
+				current_user: existingUser.name,
+				role: existingUser.role,
+				token,
+			});
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: 'Something went wrong.' });
