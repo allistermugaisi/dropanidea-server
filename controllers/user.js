@@ -180,25 +180,49 @@ export const verifyCode = async (req, res) => {
 };
 
 export const forgotPassword = async (req, res) => {
-	const { email } = req.body;
+	const { email, new_password } = req.body;
 
-	const existingUser = await User.findOne({ email });
+	try {
+		const existingUser = await User.findOne({ email });
 
-	// Check existing user
-	if (!existingUser)
-		return res.status(403).json({ message: 'User does not exist exists!' });
+		// Simple validation
+		if (!email || !new_password)
+			return res.status(400).json({ message: 'Please enter all fields!' });
 
-	const token = jwt.sign({ _id: user._id }, process.env.RESET_PASSWORD_KEY, {
-		expiresIn: '20m',
-	});
+		// Check existing user
+		if (!existingUser)
+			return res.status(403).json({ message: 'User does not exist!' });
 
-	const message = {
-		from: 'AfyaEHR <allister@ehr.afyaservices.us>',
-		to: email,
-		subject: 'Account Activation Link',
-		html: '',
-		text: '',
-		attachment: '',
-		template: 'action',
-	};
+		// Hash user password
+		const hashedPassword = await bcrypt.hash(
+			new_password,
+			parseInt(process.env.SALT_ROUNDS)
+		);
+
+		// Update user password
+		await User.updateOne(
+			{ _id: existingUser._id },
+			{
+				password: hashedPassword,
+			}
+		);
+
+		res.status(200).json({ message: 'User password updated!' });
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+
+	// const token = jwt.sign({ _id: user._id }, process.env.RESET_PASSWORD_KEY, {
+	// 	expiresIn: '20m',
+	// });
+
+	// const message = {
+	// 	from: 'AfyaEHR <allister@ehr.afyaservices.us>',
+	// 	to: email,
+	// 	subject: 'Account Activation Link',
+	// 	html: '',
+	// 	text: '',
+	// 	attachment: '',
+	// 	template: 'action',
+	// };
 };
