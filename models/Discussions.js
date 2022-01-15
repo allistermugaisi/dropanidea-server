@@ -1,18 +1,18 @@
 import mongoose from 'mongoose';
-const mongoose = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const discussionsSchema = Schema(
 	{
-		creator: String,
 		message: String,
 		tags: [String],
 		selectedFile: String,
-		likeCount: {
-			type: Number,
-			default: 0,
+		photoURL: String,
+		creator: {
+			type: Schema.Types.ObjectId,
+			ref: 'Users',
 		},
 		idea: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: Schema.Types.ObjectId,
 			ref: 'Ideas',
 		},
 	},

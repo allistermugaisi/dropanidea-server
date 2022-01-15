@@ -54,6 +54,12 @@ const userSchema = Schema(
 			type: Boolean,
 			default: false,
 		},
+		contributions: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'Discussions',
+			},
+		],
 		ideas: [
 			{
 				type: Schema.Types.ObjectId,

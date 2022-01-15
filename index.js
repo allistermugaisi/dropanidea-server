@@ -7,6 +7,8 @@ import mongoose from 'mongoose';
 import { Server } from 'socket.io';
 
 import authRoutes from './routes/users.js';
+import ideaRoutes from './routes/ideas.js';
+import discussionRoutes from './routes/discussions.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -40,6 +42,8 @@ app.use(morgan('common'));
 
 // Routes middleware
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/ideas', ideaRoutes);
+app.use('/api/v1/discussions', discussionRoutes);
 
 // Catch / routes
 app.get('/', (req, res) => {

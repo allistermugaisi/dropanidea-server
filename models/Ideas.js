@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const mongoose = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const ideasSchema = Schema(
 	{
@@ -12,12 +12,20 @@ const ideasSchema = Schema(
 			type: String,
 			required: true,
 		},
+		level: {
+			type: String,
+			required: true,
+		},
 		likeCount: {
 			type: Number,
 			default: 0,
 		},
+		isIdeaActive: {
+			type: Boolean,
+			default: false,
+		},
 		conceptualist: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: Schema.Types.ObjectId,
 			ref: 'Users',
 		},
 		discussions: [

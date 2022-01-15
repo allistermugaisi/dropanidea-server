@@ -181,6 +181,7 @@ export const verifyCode = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
 	const { email, new_password } = req.body;
+	console.log(req.body);
 
 	try {
 		const existingUser = await User.findOne({ email });
@@ -192,6 +193,12 @@ export const forgotPassword = async (req, res) => {
 		// Check existing user
 		if (!existingUser)
 			return res.status(403).json({ message: 'User does not exist!' });
+
+		// Check password strength
+		if (new_password.length < 8)
+			return res
+				.status(400)
+				.json({ message: 'Password should be atleast 8 characters.' });
 
 		// Hash user password
 		const hashedPassword = await bcrypt.hash(
@@ -211,18 +218,4 @@ export const forgotPassword = async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: error });
 	}
-
-	// const token = jwt.sign({ _id: user._id }, process.env.RESET_PASSWORD_KEY, {
-	// 	expiresIn: '20m',
-	// });
-
-	// const message = {
-	// 	from: 'AfyaEHR <allister@ehr.afyaservices.us>',
-	// 	to: email,
-	// 	subject: 'Account Activation Link',
-	// 	html: '',
-	// 	text: '',
-	// 	attachment: '',
-	// 	template: 'action',
-	// };
 };
