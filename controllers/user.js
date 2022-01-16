@@ -219,3 +219,14 @@ export const forgotPassword = async (req, res) => {
 		res.status(500).json({ message: error });
 	}
 };
+
+export const getUsers = async (req, res) => {
+	try {
+		let getUsers = await User.find()
+			.populate('ideas')
+			.populate('contributions');
+		res.status(200).json(getUsers);
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+};

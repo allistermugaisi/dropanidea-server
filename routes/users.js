@@ -4,6 +4,7 @@ import {
 	signup,
 	signin,
 	forgotPassword,
+	getUsers,
 	// accountActivate,
 	// verifyCode,
 } from '../controllers/user.js';
@@ -18,6 +19,7 @@ router.post('/signin', signin);
 router.post('/signup', signup);
 router.post('/psychometric-test', auth, psychometricTest);
 router.put('/forgot-password', forgotPassword);
+router.get('/users', auth, getUsers);
 // router.post('/account/activate', accountActivate);
 // router.post('/verify', verifyCode);
 
