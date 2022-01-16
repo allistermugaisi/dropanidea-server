@@ -181,7 +181,7 @@ export const verifyCode = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
 	const { email, new_password } = req.body;
-	console.log(req.body);
+	// console.log(req.body);
 
 	try {
 		const existingUser = await User.findOne({ email });
