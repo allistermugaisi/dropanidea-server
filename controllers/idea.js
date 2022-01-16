@@ -35,7 +35,10 @@ export const createIdea = async (req, res) => {
 
 export const getIdeas = async (req, res) => {
 	try {
-		let getIdeas = await Ideas.find().populate('discussions');
+		let currentUser = await User.findById(req.userId);
+		let getIdeas = await Ideas.find({ level: currentUser.role })
+			.populate('conceptualist')
+			.populate('discussions');
 		res.status(200).json(getIdeas);
 	} catch (error) {
 		res.status(500).json({ message: error });
@@ -46,7 +49,9 @@ export const getIdea = async (req, res) => {
 	try {
 		let getIdea = await Ideas.find({
 			_id: req.params.ideaId,
-		}).populate('discussions');
+		})
+			.populate('conceptualist')
+			.populate('discussions');
 		res.status(200).json(getIdea);
 	} catch (error) {
 		res.status(500).json({ message: error });
