@@ -42,6 +42,17 @@ export const getIdeas = async (req, res) => {
 	}
 };
 
+export const getIdea = async (req, res) => {
+	try {
+		let getIdea = await Ideas.find({
+			_id: req.params.ideaId,
+		}).populate('discussions');
+		res.status(200).json(getIdea);
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+};
+
 export const getUserIdeas = async (req, res) => {
 	try {
 		let getUserIdeas = await Ideas.find({
