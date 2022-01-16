@@ -222,9 +222,8 @@ export const forgotPassword = async (req, res) => {
 
 export const getUsers = async (req, res) => {
 	try {
-		let getUsers = await User.find()
-			.populate('ideas')
-			.populate('contributions');
+		let getUsers = await User.find();
+
 		res.status(200).json(getUsers);
 	} catch (error) {
 		res.status(500).json({ message: error });

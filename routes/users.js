@@ -15,11 +15,11 @@ import { auth } from '../middleware/auth.js';
 const router = express.Router();
 
 router.get('/profile', auth, profile);
+router.get('/users', auth, getUsers);
 router.post('/signin', signin);
 router.post('/signup', signup);
 router.post('/psychometric-test', auth, psychometricTest);
 router.put('/forgot-password', forgotPassword);
-router.get('/users', auth, getUsers);
 // router.post('/account/activate', accountActivate);
 // router.post('/verify', verifyCode);
 
