@@ -3,8 +3,10 @@ import User from '../models/Users.js';
 import Ideas from '../models/Ideas.js';
 
 export const createDiscussion = async (req, res) => {
-	const { message, tags, selectedFile, photoURL, userId, ideaId } = req.body;
+	const { message, tags, selectedFile, photoURL, ideaId } = req.body;
 	// console.log(req.body);
+
+	let userId = req.userId;
 
 	try {
 		// Simple validation
@@ -39,6 +41,7 @@ export const createDiscussion = async (req, res) => {
 
 		res.status(200).json({ message: 'New discussion created!' });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ message: error });
 	}
 };
