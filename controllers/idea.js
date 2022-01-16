@@ -35,7 +35,7 @@ export const createIdea = async (req, res) => {
 
 export const getIdeas = async (req, res) => {
 	try {
-		let getIdeas = await Ideas.find();
+		let getIdeas = await Ideas.find().populate('discussions');
 		res.status(200).json(getIdeas);
 	} catch (error) {
 		res.status(500).json({ message: error });
