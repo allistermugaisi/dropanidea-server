@@ -1,7 +1,6 @@
 import Discussions from '../models/Discussions.js';
 import User from '../models/Users.js';
 import Ideas from '../models/Ideas.js';
-import { auth } from '../middleware/auth.js';
 
 export const createDiscussion = async (req, res) => {
 	const { message, tags, selectedFile, photoURL, userId, ideaId } = req.body;

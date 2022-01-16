@@ -2,8 +2,9 @@ import Ideas from '../models/Ideas.js';
 import User from '../models/Users.js';
 
 export const createIdea = async (req, res) => {
-	const { title, description, level, userId } = req.body;
-	// console.log(req.body);
+	const { title, description } = req.body;
+	let userId = req.userId;
+	let currentUser = await User.findById(req.userId);
 
 	try {
 		// Simple validation
@@ -14,7 +15,7 @@ export const createIdea = async (req, res) => {
 		const createdIdea = await Ideas.create({
 			title,
 			description,
-			level,
+			level: currentUser.role,
 			conceptualist: userId,
 			isIdeaActive: true,
 		});
@@ -36,6 +37,7 @@ export const createIdea = async (req, res) => {
 export const getIdeas = async (req, res) => {
 	try {
 		let currentUser = await User.findById(req.userId);
+		// Ideas retrieved based on User role
 		let getIdeas = await Ideas.find({ level: currentUser.role })
 			.populate('conceptualist')
 			.populate('discussions');
