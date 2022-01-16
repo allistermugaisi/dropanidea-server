@@ -3,13 +3,15 @@ import User from '../models/Users.js';
 
 export const createIdea = async (req, res) => {
 	const { title, description } = req.body;
+
 	let userId = req.userId;
-	let currentUser = await User.findById(req.userId);
 
 	try {
 		// Simple validation
-		if (!title || !description || !level || !userId)
+		if (!title || !description || !userId)
 			return res.status(400).json({ message: 'Please enter all fields!' });
+
+		const currentUser = await User.findById(userId);
 
 		// Create an idea
 		const createdIdea = await Ideas.create({
@@ -30,6 +32,7 @@ export const createIdea = async (req, res) => {
 
 		res.status(200).json({ message: 'New idea created!' });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ message: error });
 	}
 };
