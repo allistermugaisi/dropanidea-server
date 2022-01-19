@@ -18,7 +18,8 @@ export const createIdea = async (req, res) => {
 
 		if (
 			currentUser._id == '61e1059af5aab1f746e513b0' ||
-			currentUser._id == '61e0fe34f5aab1f746e513a3'
+			currentUser._id == '61e0fe34f5aab1f746e513a3' ||
+			currentUser._id == '61e51931339d036aa2404867'
 		) {
 			// Create an Global idea
 			const createdIdea = await Ideas.create({
