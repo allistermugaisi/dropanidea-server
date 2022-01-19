@@ -4,7 +4,6 @@ import Ideas from '../models/Ideas.js';
 
 export const createDiscussion = async (req, res) => {
 	const { message, tags, selectedFile, photoURL, ideaId } = req.body;
-	// console.log(req.body);
 
 	let userId = req.userId;
 
@@ -31,7 +30,7 @@ export const createDiscussion = async (req, res) => {
 			{ $push: { contributions: createdDiscussion._id } } // push discussion array to User model by id
 		);
 
-		// appendIdeaDiscussionArray
+		// // appendIdeaDiscussionArray
 		await Ideas.findOneAndUpdate(
 			{
 				_id: createdDiscussion.idea._id, // find idea by id
@@ -46,18 +45,41 @@ export const createDiscussion = async (req, res) => {
 	}
 };
 
-export const getUserDiscussions = async (req, res) => {
+// export const getUserDiscussions = async (req, res) => {
+// 	try {
+// 		let getUserDiscussions = await Discussions.find({
+// 			creator: req.params.userId,
+// 		}).populate('idea');
+// 		// .populate('idea');
+
+// 		res.status(200).json(getUserDiscussions);
+// 	} catch (error) {
+// 		res.status(500).json({ message: error });
+// 	}
+// };
+
+export const getDiscussions = async (req, res) => {
 	try {
-		let getUserDiscussions = await Discussions.find({
-			creator: req.params.userId,
-		})
+		let getDiscussions = await Discussions.find()
 			.populate('creator')
 			.populate('idea');
-
-		res.status(200).json(getUserDiscussions);
+		res.status(200).json(getDiscussions);
 	} catch (error) {
+		// console.log(error);
 		res.status(500).json({ message: error });
 	}
 };
 
-export const getIdeaDiscussions = async (req, res) => {};
+export const deleteDiscussion = async (req, res) => {
+	try {
+		await Discussions.findByIdAndDelete({
+			_id: req.params.discussionId,
+		});
+
+		// Remember to delete id in contributions & discussions arrays in Users & Ideas model respectively
+		res.status(200).json({ message: 'Discussion deleted successfully!' });
+	} catch (error) {
+		// console.log(error);
+		res.status(500).json({ message: error });
+	}
+};

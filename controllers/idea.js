@@ -63,16 +63,30 @@ export const getIdea = async (req, res) => {
 	}
 };
 
-export const getUserIdeas = async (req, res) => {
+export const deleteIdea = async (req, res) => {
 	try {
-		let getUserIdeas = await Ideas.find({
-			conceptualist: req.params.userId,
-		})
-			.populate('conceptualist')
-			.populate('discussions');
+		await Ideas.findByIdAndDelete({
+			_id: req.params.ideaId,
+		});
 
-		res.status(200).json(getUserIdeas);
+		// Remember to delete id in ideas array in Users model
+		res.status(200).json({ message: 'Idea deleted successfully!' });
 	} catch (error) {
+		// console.log(error);
 		res.status(500).json({ message: error });
 	}
 };
+
+// export const getUserIdeas = async (req, res) => {
+// 	try {
+// 		let getUserIdeas = await Ideas.find({
+// 			conceptualist: req.params.userId,
+// 		})
+// 			.populate('conceptualist')
+// 			.populate('discussions');
+
+// 		res.status(200).json(getUserIdeas);
+// 	} catch (error) {
+// 		res.status(500).json({ message: error });
+// 	}
+// };
