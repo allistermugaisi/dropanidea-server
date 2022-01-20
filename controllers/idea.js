@@ -8,7 +8,7 @@ export const createIdea = async (req, res) => {
 
 	try {
 		// Simple validation
-		if (!title || !description || !userId || !level)
+		if (!title || !description || !userId)
 			return res.status(400).json({ message: 'Please enter all fields!' });
 
 		const currentUser = await User.findById(userId);
