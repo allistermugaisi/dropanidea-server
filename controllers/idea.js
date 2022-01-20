@@ -2,13 +2,13 @@ import Ideas from '../models/Ideas.js';
 import User from '../models/Users.js';
 
 export const createIdea = async (req, res) => {
-	const { title, description } = req.body;
+	const { title, description, level } = req.body;
 
 	let userId = req.userId;
 
 	try {
 		// Simple validation
-		if (!title || !description || !userId)
+		if (!title || !description || !userId || !level)
 			return res.status(400).json({ message: 'Please enter all fields!' });
 
 		const currentUser = await User.findById(userId);
@@ -25,7 +25,7 @@ export const createIdea = async (req, res) => {
 			const createdIdea = await Ideas.create({
 				title,
 				description,
-				level: 'Global',
+				level,
 				conceptualist: userId,
 				isIdeaActive: true,
 			});

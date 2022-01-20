@@ -3,7 +3,7 @@ import User from '../models/Users.js';
 import Ideas from '../models/Ideas.js';
 
 export const createDiscussion = async (req, res) => {
-	const { message, tags, selectedFile, photoURL, ideaId } = req.body;
+	const { message, tags, selectedFile, photoURL, ideaId, replies } = req.body;
 
 	let userId = req.userId;
 
@@ -18,6 +18,7 @@ export const createDiscussion = async (req, res) => {
 			tags,
 			selectedFile,
 			photoURL,
+			replies,
 			creator: userId,
 			idea: ideaId,
 		});

@@ -7,6 +7,7 @@ const discussionsSchema = Schema(
 		tags: [String],
 		selectedFile: String,
 		photoURL: String,
+		replies: [String],
 		creator: {
 			type: Schema.Types.ObjectId,
 			ref: 'Users',
