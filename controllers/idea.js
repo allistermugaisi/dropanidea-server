@@ -8,7 +8,7 @@ export const createIdea = async (req, res) => {
 
 	try {
 		// Simple validation
-		if (!title || !description || !userId)
+		if (!title || !description)
 			return res.status(400).json({ message: 'Please enter all fields!' });
 
 		const currentUser = await User.findById(userId);
@@ -16,11 +16,7 @@ export const createIdea = async (req, res) => {
 		// getMartha user id
 		// level = global
 
-		if (
-			currentUser._id == '61e1059af5aab1f746e513b0' ||
-			currentUser._id == '61e0fe34f5aab1f746e513a3' ||
-			currentUser._id == '61e51931339d036aa2404867'
-		) {
+		if (currentUser.isAdmin) {
 			// Create an Global idea
 			const createdIdea = await Ideas.create({
 				title,
@@ -65,9 +61,31 @@ export const createIdea = async (req, res) => {
 	}
 };
 
+export const getAllIdeas = async (req, res) => {
+	try {
+		let currentUser = await User.findById(req.userId);
+
+		if (currentUser.isAdmin) {
+			// Retrieve all Ideas
+			let getAllIdeas = await Ideas.find()
+				.populate('conceptualist')
+				.populate('discussions');
+			res.status(200).json(getAllIdeas);
+		} else {
+			res.status(200).json({
+				message: `You can't view that resource, you're not an admin.`,
+			});
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: error });
+	}
+};
+
 export const getIdeas = async (req, res) => {
 	try {
 		let currentUser = await User.findById(req.userId);
+
 		// Ideas retrieved based on User role
 		let getIdeas = await Ideas.find({
 			$or: [{ level: currentUser.role }, { level: 'Global' }],

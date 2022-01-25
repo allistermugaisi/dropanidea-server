@@ -59,7 +59,7 @@ export const createDiscussion = async (req, res) => {
 // 	}
 // };
 
-export const getDiscussions = async (req, res) => {
+export const getAllDiscussions = async (req, res) => {
 	try {
 		let getDiscussions = await Discussions.find()
 			.populate('creator')
