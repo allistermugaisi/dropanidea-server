@@ -235,7 +235,6 @@ export const getUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
 	try {
-		console.log(req.body.email);
 		const { email } = req.body;
 
 		const existingUser = await User.findOne({ email });
@@ -244,13 +243,15 @@ export const updateUser = async (req, res) => {
 		if (!existingUser)
 			return res.status(403).json({ message: 'User does not exist!' });
 
-		const updateUser = await User.findOneAndUpdate(
-			email,
+		const updatedUser = await User.findOneAndUpdate(
+			{
+				_id: existingUser._id,
+			},
 			{ isAdmin: true },
 			{ new: true }
 		);
 
-		res.status(200).json(updateUser);
+		res.status(200).json(updatedUser);
 	} catch (error) {
 		res.status(500).json({ message: error });
 	}
