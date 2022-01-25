@@ -34,6 +34,11 @@ const userSchema = Schema(
 			maxlength: 50,
 			required: true,
 		},
+		isAdmin: {
+			type: Boolean,
+			default: false,
+			required: true,
+		},
 		gender: {
 			type: String,
 			maxlength: 50,

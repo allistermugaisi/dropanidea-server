@@ -5,6 +5,7 @@ import {
 	signin,
 	forgotPassword,
 	getUsers,
+	updateUser,
 	// accountActivate,
 	// verifyCode,
 } from '../controllers/user.js';
@@ -16,6 +17,7 @@ const router = express.Router();
 
 router.get('/profile', auth, profile);
 router.get('/users', auth, getUsers);
+router.put('/user', auth, updateUser);
 router.post('/signin', signin);
 router.post('/signup', signup);
 router.post('/psychometric-test', auth, psychometricTest);

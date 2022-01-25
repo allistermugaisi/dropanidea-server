@@ -39,6 +39,7 @@ export const signin = async (req, res) => {
 		res.status(200).json({
 			current_user: existingUser.name,
 			role: existingUser.role,
+			isAdmin: existingUser.isAdmin,
 			token,
 		});
 	} catch (error) {
@@ -227,6 +228,29 @@ export const getUsers = async (req, res) => {
 			.populate('contributions');
 
 		res.status(200).json(getUsers);
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+};
+
+export const updateUser = async (req, res) => {
+	try {
+		console.log(req.body.email);
+		const { email } = req.body;
+
+		const existingUser = await User.findOne({ email });
+
+		// Check existing user
+		if (!existingUser)
+			return res.status(403).json({ message: 'User does not exist!' });
+
+		const updateUser = await User.findOneAndUpdate(
+			email,
+			{ isAdmin: true },
+			{ new: true }
+		);
+
+		res.status(200).json(updateUser);
 	} catch (error) {
 		res.status(500).json({ message: error });
 	}
