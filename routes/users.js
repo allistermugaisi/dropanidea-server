@@ -4,6 +4,7 @@ import {
 	signup,
 	signin,
 	forgotPassword,
+	getUser,
 	getUsers,
 	updateUser,
 	// accountActivate,
@@ -17,6 +18,7 @@ const router = express.Router();
 
 router.get('/profile', auth, profile);
 router.get('/users', auth, getUsers);
+router.get('/user/:id', auth, getUser);
 router.put('/user', auth, updateUser);
 router.post('/signin', signin);
 router.post('/signup', signup);

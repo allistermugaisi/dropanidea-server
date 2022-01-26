@@ -4,6 +4,7 @@ import {
 	getIdea,
 	getIdeas,
 	getAllIdeas,
+	updateIdea,
 	deleteIdea,
 } from '../controllers/idea.js';
 import { auth } from '../middleware/auth.js';
@@ -15,5 +16,6 @@ router.delete('/:ideaId', auth, deleteIdea);
 router.get('/all', auth, getAllIdeas);
 router.get('/', auth, getIdeas);
 router.get('/:ideaId', auth, getIdea);
+router.put('/:ideaId', auth, updateIdea);
 
 export default router;
