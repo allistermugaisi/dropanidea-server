@@ -104,6 +104,7 @@ export const signup = async (req, res) => {
 			role,
 			gender,
 			isUserActive: true,
+			isAdmin: false,
 			isEmailVerified: false,
 			password: hashedPassword,
 		});
