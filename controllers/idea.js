@@ -113,14 +113,13 @@ export const getIdea = async (req, res) => {
 
 export const updateIdea = async (req, res) => {
 	try {
-		const updatedIdea = await Ideas.findByIdAndUpdate(
+		await Ideas.findByIdAndUpdate(
 			{
 				_id: req.params.ideaId,
 			},
 			{ $set: req.body },
 			{ new: true }
 		);
-		console.log(updatedIdea);
 		res.status(200).json({ message: 'Idea updated successfully' });
 	} catch (error) {
 		// console.log(error);
