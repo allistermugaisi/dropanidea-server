@@ -1,5 +1,6 @@
 import Ideas from '../models/Ideas.js';
 import User from '../models/Users.js';
+import sendMail from './mail.js';
 
 export const createIdea = async (req, res) => {
 	const { title, description, level } = req.body;
@@ -52,6 +53,23 @@ export const createIdea = async (req, res) => {
 				},
 				{ $push: { ideas: createdIdea._id } } // push idea array to User model by id
 			);
+
+			const currentUsers = await User.find();
+
+			currentUsers?.map((user) => {
+				const { email } = user;
+				const message = {
+					from: 'ZinniaGlobalConsultancy <me@samples.mailgun.org>',
+					to: email,
+					subject: 'New Idea Available',
+					html: '',
+					text: '',
+					attachment: '',
+					template: 'zinniaglobalconsultancy-action',
+				};
+
+				sendMail(message, res);
+			});
 
 			res.status(200).json({ message: 'New idea created!' });
 		}

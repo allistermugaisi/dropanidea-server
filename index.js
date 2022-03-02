@@ -6,6 +6,8 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
 
+import Discussions from './models/Discussions.js';
+
 import authRoutes from './routes/users.js';
 import ideaRoutes from './routes/ideas.js';
 import discussionRoutes from './routes/discussions.js';
@@ -50,23 +52,34 @@ app.get('/', (req, res) => {
 	res.json({ message: 'Welcome to Zinnia Global Consultancy api endpoint!' });
 });
 
+let interval;
+
 // Run when client connects
 io.on('connection', (socket) => {
-	const id = socket.handshake.query.id;
-	socket.join(id);
-	console.log('New WebSocket Connection...', id);
+	console.log('WS connected successfully...');
+	if (interval) {
+		clearInterval(interval);
+	}
 	// Welcome current user
-	socket.emit('message', 'Welcome to DropAnIdea ZinniaGlobalConsultancy');
+	socket.emit('message', 'A user has joined the chat');
+	getApiAndEmit(socket);
 
-	// Broadcast when user connects
-	socket.broadcast.emit('message', 'A user has joined the chat');
-
+	// interval = setInterval(() => getApiAndEmit(socket), 1000);
 	// Runs when client disconnects
 	socket.on('disconnect', () => {
 		io.emit('message', 'A user has left the chat');
-		console.log('user disconnected');
+		clearInterval(interval);
 	});
 });
+
+export const getApiAndEmit = async (socket) => {
+	const getCurrentMessage = await Discussions.findOne().sort({
+		createdAt: -1,
+	});
+	const response = getCurrentMessage;
+	// Emitting a new message. Will be consumed by the client
+	socket.emit('FromAPI', response);
+};
 
 const PORT = process.env.PORT || 5000;
 

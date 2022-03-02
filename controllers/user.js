@@ -114,18 +114,6 @@ export const signup = async (req, res) => {
 		// const token = jwt.sign({ email }, process.env.JWT_ACC_ACTIVATION, {
 		// 	expiresIn: '20m',
 		// });
-
-		// const message = {
-		// 	from: 'AfyaEHR <allister@ehr.afyaservices.us>',
-		// 	to: email,
-		// 	subject: 'Verify Your Email Address',
-		// 	html: '',
-		// 	text: '',
-		// 	attachment: '',
-		// 	template: 'action',
-		// };
-
-		// sendMail(message, token, res);
 	} catch (error) {
 		res.status(500).json({ message: error });
 	}
